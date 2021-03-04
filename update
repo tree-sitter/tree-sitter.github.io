@@ -18,10 +18,12 @@ const filenames = fs.readdirSync(searchDir)
 for (const filename of filenames) {
     if (!filename.startsWith('tree-sitter-')) continue;
     const repoPath = path.join(searchDir, filename)
-    const repoInfo = require(path.join(repoPath, 'package.json'))
-    if (!repoInfo) continue;
-    const info = repoInfo['tree-sitter']
+    const repoInfoPath = path.join(repoPath, 'package.json');
+    if (!fs.existsSync(repoInfoPath)) continue;
+    const repoInfo = require(repoInfoPath);
+    let info = repoInfo['tree-sitter']
     if (!info) continue
+    if (!Array.isArray(info)) info = [info];
 
     // Examine every "tree-sitter" entry in package.json. Some may have
     // non-default paths (e.g. if one repo contains multiple parsers)
