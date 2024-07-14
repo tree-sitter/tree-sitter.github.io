@@ -45,7 +45,7 @@ for (const filename of filenames) {
       }
 
       console.log('Building', wasmName, 'in', parserPath, '...');
-      execFileSync('tree-sitter', ['build-wasm'], { cwd: parserPath })
+      execFileSync('tree-sitter', ['build', '--wasm'], { cwd: parserPath })
       fs.copyFileSync(path.join(parserPath, wasmName), wasmName)
     }
   }
